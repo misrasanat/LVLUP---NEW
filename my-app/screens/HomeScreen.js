@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated, Modal, TextInput } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
-export default function HomeScreen({ onLogout }) {
+export default function HomeScreen({ onLogout, onNavigateToFriends, onNavigateToQuests }) {
   const [fadeAnim] = useState(new Animated.Value(0));
   const [xpAnimation] = useState(new Animated.Value(0));
   const [selectedQuest, setSelectedQuest] = useState(null);
@@ -169,7 +169,11 @@ export default function HomeScreen({ onLogout }) {
           </TouchableOpacity>
 
           {/* Daily Quests Section */}
-          <View style={styles.questsCard}>
+          <TouchableOpacity
+            style={styles.questsCard}
+            onPress={onNavigateToQuests}
+            activeOpacity={0.8}
+          >
             <Text style={styles.sectionTitle}>📋 Daily Quests</Text>
             {dailyQuests.map((quest) => (
               <TouchableOpacity
@@ -194,7 +198,7 @@ export default function HomeScreen({ onLogout }) {
                 </View>
               </TouchableOpacity>
             ))}
-          </View>
+          </TouchableOpacity>
         </Animated.View>
       </ScrollView>
 
@@ -212,9 +216,9 @@ export default function HomeScreen({ onLogout }) {
           <Feather name="package" size={22} color="#888" />
           <Text style={styles.navLabel}>Inventory</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Feather name="user" size={22} color="#888" />
-          <Text style={styles.navLabel}>Profile</Text>
+        <TouchableOpacity style={styles.navItem} onPress={onNavigateToFriends}>
+          <Feather name="users" size={22} color="#888" />
+          <Text style={styles.navLabel}>Friends</Text>
         </TouchableOpacity>
       </View>
 

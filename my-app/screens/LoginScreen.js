@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { app } from "../firebase";
 import { Feather } from '@expo/vector-icons';
@@ -51,100 +51,102 @@ export default function LoginScreen({ onLogin }) {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Background Elements */}
-      <View style={styles.backgroundGrid}>
-        {[...Array(20)].map((_, i) => (
-          <View key={i} style={[styles.gridLine, { 
-            top: i * 40,
-            opacity: 0.1 
-          }]} />
-        ))}
-        {[...Array(10)].map((_, i) => (
-          <View key={`v${i}`} style={[styles.gridLineVertical, { 
-            left: i * 40,
-            opacity: 0.1 
-          }]} />
-        ))}
-      </View>
-
-      {/* Floating Elements */}
-      <View style={styles.floatingElement1} />
-      <View style={styles.floatingElement2} />
-      <View style={styles.floatingElement3} />
-
-      <Animated.View style={[styles.content, { 
-        opacity: fadeAnim,
-        transform: [{ translateY: slideAnim }]
-      }]}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.appTitle}>LVL</Text>
-            <Text style={styles.appTitleAccent}>UP</Text>
-            <View style={styles.glowDot} />
-          </View>
-          <Text style={styles.subtitle}>Level Up Your Life</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        {/* Background Elements */}
+        <View style={styles.backgroundGrid}>
+          {[...Array(20)].map((_, i) => (
+            <View key={i} style={[styles.gridLine, { 
+              top: i * 40,
+              opacity: 0.1 
+            }]} />
+          ))}
+          {[...Array(10)].map((_, i) => (
+            <View key={`v${i}`} style={[styles.gridLineVertical, { 
+              left: i * 40,
+              opacity: 0.1 
+            }]} />
+          ))}
         </View>
 
-        {/* Login Form */}
-        <View style={styles.formContainer}>
-          <Text style={styles.formTitle}>
-            <Feather name="zap" size={20} color="#00d4ff" /> Access Portal
-          </Text>
+        {/* Floating Elements */}
+        <View style={styles.floatingElement1} />
+        <View style={styles.floatingElement2} />
+        <View style={styles.floatingElement3} />
 
-          <View style={styles.inputContainer}>
-            <Feather name="mail" size={18} color="#888" style={styles.inputIcon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your email"
-              placeholderTextColor="#666"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              value={email}
-              onChangeText={setEmail}
-            />
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Feather name="lock" size={18} color="#888" style={styles.inputIcon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your password"
-              placeholderTextColor="#666"
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
-            />
-          </View>
-
-          {loginError ? (
-            <View style={styles.errorContainer}>
-              <Feather name="alert-circle" size={16} color="#ff6b35" />
-              <Text style={styles.errorText}>{loginError}</Text>
+        <Animated.View style={[styles.content, { 
+          opacity: fadeAnim,
+          transform: [{ translateY: slideAnim }]
+        }]}>
+          {/* Header */}
+          <View style={styles.header}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.appTitle}>LVL</Text>
+              <Text style={styles.appTitleAccent}>UP</Text>
+              <View style={styles.glowDot} />
             </View>
-          ) : null}
-
-          <TouchableOpacity style={styles.primaryButton} onPress={handleLogin}>
-            <Feather name="log-in" size={20} color="#fff" />
-            <Text style={styles.primaryButtonText}>Initialize Session</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.secondaryButton} onPress={handleSignUp}>
-            <Feather name="user-plus" size={20} color="#00d4ff" />
-            <Text style={styles.secondaryButtonText}>Create New Profile</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Join the Shadow Hunters</Text>
-          <View style={styles.versionContainer}>
-            <Text style={styles.versionText}>v1.0.0 - Beta</Text>
+            <Text style={styles.subtitle}>Level Up Your Life</Text>
           </View>
-        </View>
-      </Animated.View>
-    </View>
+
+          {/* Login Form */}
+          <View style={styles.formContainer}>
+            <Text style={styles.formTitle}>
+              <Feather name="zap" size={20} color="#00d4ff" /> Access Portal
+            </Text>
+
+            <View style={styles.inputContainer}>
+              <Feather name="mail" size={18} color="#888" style={styles.inputIcon} />
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your email"
+                placeholderTextColor="#666"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Feather name="lock" size={18} color="#888" style={styles.inputIcon} />
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your password"
+                placeholderTextColor="#666"
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
+              />
+            </View>
+
+            {loginError ? (
+              <View style={styles.errorContainer}>
+                <Feather name="alert-circle" size={16} color="#ff6b35" />
+                <Text style={styles.errorText}>{loginError}</Text>
+              </View>
+            ) : null}
+
+            <TouchableOpacity style={styles.primaryButton} onPress={handleLogin}>
+              <Feather name="log-in" size={20} color="#fff" />
+              <Text style={styles.primaryButtonText}>Initialize Session</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.secondaryButton} onPress={handleSignUp}>
+              <Feather name="user-plus" size={20} color="#00d4ff" />
+              <Text style={styles.secondaryButtonText}>Create New Profile</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Footer */}
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Join the Shadow Hunters</Text>
+            <View style={styles.versionContainer}>
+              <Text style={styles.versionText}>v1.0.0 - Beta</Text>
+            </View>
+          </View>
+        </Animated.View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
